@@ -156,20 +156,36 @@ class cdfinv_type:
 #     pyplt(fig, filename='gaussian.html')
 
 
+# if __name__ == '__main__':
+#     mu = 0
+#     sigma = 1
+#     start = mu-10*sigma
+#     end = mu+10*sigma
+#     pdf = gaussian_pdf(mu, sigma)
+#     cdf = cdf_type(pdf, start, end, step=0.001)
+#     cdfinv = cdfinv_type(cdf, precision=0.001) 
+
+#     tablesize = 167
+#     randx = np.random.uniform()
+#     randy = cdfinv(randx)
+
+#     print(f'randx is {randx}')
+#     print(f'randy is {randy}')
+#     print(f'invrandx is {cdf(randy)}')
+#     print(f'invinvrandx is {cdfinv(cdf(randy))}')
+
 if __name__ == '__main__':
-    mu = 0
-    sigma = 1
+    tablesize = 167
+    mu = 167/2
+    sigma = mu/3
     start = mu-10*sigma
     end = mu+10*sigma
     pdf = gaussian_pdf(mu, sigma)
-    cdf = cdf_type(pdf, start, end, step=0.001)
-    cdfinv = cdfinv_type(cdf, precision=0.001) 
+    cdf = cdf_type(pdf, start, end, step=0.01)
+    cdfinv = cdfinv_type(cdf, precision=0.001)
 
     tablesize = 167
-    randx = np.random.uniform()
-    randy = cdfinv(randx)
-
-    print(f'randx is {randx}')
-    print(f'randy is {randy}')
-    print(f'invrandx is {cdf(randy)}')
-    print(f'invinvrandx is {cdfinv(cdf(randy))}')
+    for randx in range(1, tablesize):
+        randy = cdfinv(np.round(1/randx, 3))
+        invrandx = np.round(1/cdf(randy), 0)
+        print(f'{randx}\t{randy}\t{invrandx}')
